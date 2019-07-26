@@ -27,19 +27,30 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
     render() {
         return (
             <Menu mode="horizontal">
-                <Menu.Item key="One" onClick={this.MyClick}>
-                    <Icon type="mail"></Icon>
-                    One sssssssss
+                <Menu.Item key="menuRstPolicy" onClick={this.MyClick}>
+                    <Icon type="undo" />
+                    Reset policy
                 </Menu.Item>
-                <Menu.Item key="One2" onClick={this.MyClick}>
-                    2222222
-                </Menu.Item>
-                <SubMenu title={<span>"I5"</span>}>
+                <SubMenu key="menuPolicy" title={<span>Policy</span>}>
                     <Menu.ItemGroup>
-                        <Menu.Item>i1</Menu.Item>
-                        <Menu.Item>i222</Menu.Item>
+                        <Menu.Item key="menuLoadPolicy">
+                            <Icon type="folder-open" />
+                            Load Policy
+                        </Menu.Item>
+                        <Menu.Item key="menuSavePolicy">
+                            <Icon type="save" />
+                            Save Policy
+                        </Menu.Item>
                     </Menu.ItemGroup>
                 </SubMenu>
+                <Menu.Item key="menuLoadLog" onClick={this.MyClick}>
+                    <Icon type="align-left" />
+                    Load Log file
+                </Menu.Item>
+                <Menu.Item key="menuAbout" onClick={this.MyClick}>
+                    <Icon type="info-circle" />
+                    About <i>selfcac</i>
+                </Menu.Item>
             </Menu>
         );
     }
