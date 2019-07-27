@@ -26,6 +26,7 @@ class App extends React.Component {
           <DockLeft>
             <span>b</span>
             <span>c</span>
+            <span>d</span>
           </DockLeft>
         </DockTop>
 

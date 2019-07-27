@@ -38,19 +38,22 @@ export default class DockPanel extends React.Component<DockerProps> {
             }
         }
 
-       return (<div>problem dock</div>)
+       return (<div>problem dock, null?</div>)
     }
 
     render() {
         let resultChildren = this.props.children;
         let myChildren =  React.Children.toArray(this.props.children);
 
-        if (myChildren.length > 1) {
+        if (myChildren.length == 2) {
             // Make last children fill:
             resultChildren = this.makeFlexDock(
                     this.props.defaultDock, // before last
-                    myChildren[(myChildren.length-1)-1],
-                    myChildren[(myChildren.length-1)] ); // last element
+                    myChildren[0],
+                    myChildren[1] ); // last element
+        }
+        else if (myChildren.length > 2) {
+            resultChildren = <div>Expecting 2 elements for docks got {myChildren.length}</div>;
         }
 
         return (resultChildren);
