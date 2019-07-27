@@ -22,11 +22,10 @@ class App extends React.Component {
 
       <div className="App">
         <DockTop>
-          <span>a</span>
+          <span style={{background: "red"}}>a</span>
           <DockLeft>
-            <span>b</span>
-            <span>c</span>
-            <span>d</span>
+            <span style={{background: "green"}}>b</span>
+            <span style={{background: "yellow"}}>c</span>
           </DockLeft>
         </DockTop>
 

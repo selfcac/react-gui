@@ -1,6 +1,4 @@
 import React, { ReactElement } from "react";
-import { Interface } from "readline";
-import { number } from "prop-types";
 import { FlexDirectionProperty } from "csstype";
 
 export enum DockType {
@@ -19,20 +17,27 @@ export var DockBottom : React.FC = (props) => {return (<DockPanel defaultDock={D
 export default class DockPanel extends React.Component<DockerProps> {
 
     getDockFlexString = (type : DockType) : FlexDirectionProperty => {
-        return (type == DockType.TOP) ?  "column" :
-        (type == DockType.LEFT) ?  "row" :
-        (type == DockType.RIGHT) ?  "row-reverse" :
+        return (type === DockType.TOP) ?  "column" :
+        (type === DockType.LEFT) ?  "row" :
+        (type === DockType.RIGHT) ?  "row-reverse" :
          "column-reverse";
     }
 
 
-    makeFlexDock = (type : DockType, childFirst : React.ReactNode, childNext: React.ReactNode)=> {
+    makeFlexDock = (type : DockType, childFirst :ReactElement, childNext: ReactElement)=> {
         if ( typeof(childFirst) !== 'undefined' && childFirst !== null ) {
             if ( typeof(childNext) !== 'undefined' && childNext !== null ) {
+
+                let newFirstProps = {style: {flex: 0}, ...childFirst.props };
+                newFirstProps.style.flex = 0;
+
+                let newNextProps = {style: {flex: 1}, ...childNext.props };
+                newNextProps.style.flex = 1;
+                
                 return (
                     <div style={{display:"flex", flexDirection: this.getDockFlexString(type)}} >
-                        {React.cloneElement(childFirst as ReactElement, {flex: 0})}
-                        {React.cloneElement(childNext  as ReactElement, {flex: 1})}
+                        {React.cloneElement(childFirst , newFirstProps)}
+                        {React.cloneElement(childNext  , newNextProps)}
                     </div>
                 );
             }
@@ -45,12 +50,12 @@ export default class DockPanel extends React.Component<DockerProps> {
         let resultChildren = this.props.children;
         let myChildren =  React.Children.toArray(this.props.children);
 
-        if (myChildren.length == 2) {
+        if (myChildren.length === 2) {
             // Make last children fill:
             resultChildren = this.makeFlexDock(
                     this.props.defaultDock, // before last
-                    myChildren[0],
-                    myChildren[1] ); // last element
+                    myChildren[0] as ReactElement,
+                    myChildren[1] as ReactElement); // last element
         }
         else if (myChildren.length > 2) {
             resultChildren = <div>Expecting 2 elements for docks got {myChildren.length}</div>;
