@@ -23,23 +23,19 @@ export default class DockPanel extends React.Component<DockerProps> {
          "column-reverse";
     }
 
-
     makeFlexDock = (type : DockType, childFirst :ReactElement, childNext: ReactElement)=> {
         if ( typeof(childFirst) !== 'undefined' && childFirst !== null ) {
             if ( typeof(childNext) !== 'undefined' && childNext !== null ) {
 
-                let newFirstProps = {style: {flex: 0}, ...childFirst.props };
-                newFirstProps.style.flex = 0;
-
-                let newNextProps = {style: {flex: 1}, ...childNext.props };
-                newNextProps.style.flex = 1;
-                
-                return (
-                    <div style={{display:"flex", flexDirection: this.getDockFlexString(type)}} >
-                        {React.cloneElement(childFirst , newFirstProps)}
-                        {React.cloneElement(childNext  , newNextProps)}
+               return (
+                    <div className="dockPanel" style={{
+                        display:"flex", flexDirection: this.getDockFlexString(type),
+                        height: "100%"
+                        }}>
+                        <div className="dockDocked" style={{flex:"0"}}>{childFirst}</div>
+                        <div className="dockFill" style={{flex:"1"}}>{childNext}</div>
                     </div>
-                );
+               );
             }
         }
 

@@ -1,6 +1,3 @@
-* wrap in divs to assure children flex.
-* why dock divs not getting flex from parent?
-
 
 Canvas => all absolutes
 GRID

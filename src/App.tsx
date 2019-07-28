@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import MainMenu from './components/MainMenu';
 import SomeForm, { MyNumberProps } from './components/SomeForm';
-import DockPanel, { DockType, DockTop, DockLeft } from './components/DockPanel';
+import DockPanel, { DockType, DockTop, DockLeft, DockBottom } from './components/DockPanel';
 
 
 
@@ -20,12 +20,15 @@ class App extends React.Component {
   render() {
     return (
 
-      <div className="App">
+      <div className="App" style={{height: "100vh", width: "100vw"}}>
         <DockTop>
-          <span style={{background: "red"}}>a</span>
+          <div className="fill" style={{background: "red"}}>a</div>
           <DockLeft>
-            <span style={{background: "green"}}>b</span>
-            <span style={{background: "yellow"}}>c</span>
+            <div className="fill" style={{background: "green"}}>b</div>
+            <DockBottom>
+              <div className="fill" style={{background: "pink"}}>c</div>
+              <div className="fill" style={{background: "yellow"}}>d</div>
+            </DockBottom>
           </DockLeft>
         </DockTop>
 
