@@ -16,6 +16,7 @@
   }
 }
 
-.fillHeight {
+.fH { 
+  /*Full height*/
   height: 100%;
 }
