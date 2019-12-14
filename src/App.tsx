@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import MainMenu from './components/MainMenu';
 import SomeForm, { MyNumberProps } from './components/SomeForm';
 import { DockTop, DockLeft, DockRight, DockBottom } from './components/DockPanel';
 import CenterPanel from './components/CenterPanel';
-import { List, Input, Row, Col } from 'antd';
+import { List, Row, Col } from 'antd';
 import Search from 'antd/lib/input/Search';
-import { DataSource } from './data-components/DataSource';
+import { DataSource, DataType } from './data-components/DataSource';
 
 class App extends React.Component {
 
@@ -19,12 +19,17 @@ class App extends React.Component {
 
   updateNumber = (i: number) => {
     this.setState({ myNumber: i });
+    this.data.addData("Hello");
   }
 
   componentDidMount() {
     this.data.addData("Hello");
     this.data.addData("Hello");
-    
+    this.data.addSubscriber(()=>{this.setState(this.state)})
+  }
+
+  renderItem(item: DataType, index: number) : ReactNode {
+    return (<div>{item.toString()}</div>);
   }
 
   render() {
@@ -40,7 +45,7 @@ class App extends React.Component {
                     <div style={{ height: "50%" }} >
                       <DockTop>
                         <Search placeholder="search domain" onSearch={value => console.log(value)} enterButton />
-                        <List dataSource={this.data.filteredData}></List>
+                        <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
                       </DockTop>
                     </div>
                     <div style={{ background: "red", height: "50%" }}>a</div>

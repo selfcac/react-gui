@@ -1,5 +1,5 @@
 
-type DataType = string;
+export type DataType = string;
 type FilterItemFunction = (i: DataType) => boolean;
 type SortFunction = (a: DataType, b: DataType) => number;
 type NotifyFunction = () => void;
