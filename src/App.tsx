@@ -22,20 +22,11 @@ class App extends React.Component {
     return (
 
       <div className="App" style={{ height: "100vh", width: "100vw" }}>
-
-        <CenterPanel
-          style={{
-            height: "90%", width: "50%",
-            borderRadius: "10px", padding: "5px",
-            background: "white", boxShadow: "2px 4px 6px black"
-          }}
-          bgStyle={{ backgroundImage: 'url(bg.jpg)' }}
-        >
           <DockTop>
             <MainMenu updateFunc={this.updateNumber} ></MainMenu>
             <div className="fH">
               <Row className="fH">
-                <Col span={12} className="fH" >
+                <Col span={8} className="fH" >
                   <div style={{ height: "50%" }} >
                     <DockTop>
                       <Search placeholder="search domain" onSearch={value => console.log(value)} enterButton />
@@ -44,13 +35,11 @@ class App extends React.Component {
                   </div>
                   <div style={{ background: "red", height: "50%" }}>a</div>
                 </Col>
-                <Col span={12} className="fH">col-12</Col>
+                <Col span={8} className="fH"><b>col-8</b></Col>
+                <Col span={8} className="fH"><b>col-8</b></Col>
               </Row>
             </div>
           </DockTop>
-        </CenterPanel>
-
-
       </div>
     );
   }
