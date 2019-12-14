@@ -27,13 +27,15 @@ class App extends React.Component {
             <div className="fH">
               <Row className="fH">
                 <Col span={8} className="fH" >
-                  <div style={{ height: "50%" }} >
-                    <DockTop>
-                      <Search placeholder="search domain" onSearch={value => console.log(value)} enterButton />
-                      <List></List>
-                    </DockTop>
+                  <div style={{padding: "10px"}} className="fH">
+                    <div style={{ height: "50%" }} >
+                      <DockTop>
+                        <Search placeholder="search domain" onSearch={value => console.log(value)} enterButton />
+                        <List></List>
+                      </DockTop>
+                    </div>
+                    <div style={{ background: "red", height: "50%" }}>a</div>
                   </div>
-                  <div style={{ background: "red", height: "50%" }}>a</div>
                 </Col>
                 <Col span={8} className="fH"><b>col-8</b></Col>
                 <Col span={8} className="fH"><b>col-8</b></Col>
