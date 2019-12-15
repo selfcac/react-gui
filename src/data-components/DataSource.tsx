@@ -1,20 +1,20 @@
 
-export type DataType = string;
-type FilterItemFunction = (i: DataType) => boolean;
-type SortFunction = (a: DataType, b: DataType) => number;
+export type dsDataType = string;
+type FilterItemFunction = (i: dsDataType) => boolean;
+type SortFunction = (a: dsDataType, b: dsDataType) => number;
 type NotifyFunction = () => void;
 
 
 export class DataSource {
     
-    private myData : DataType[] = [];
+    private myData : dsDataType[] = [];
     private subscribers : Array<NotifyFunction> = [];
     
     private lastFilterFunc : FilterItemFunction = (a) => true;
     private lastSortFunc : SortFunction = (a,b) => 0;
-    filteredData : DataType[]  = [];
+    filteredData : dsDataType[]  = [];
 
-    loadData (data: DataType[]) {
+    loadData (data: dsDataType[]) {
         this.myData = data;
         this.updateData()
     }
@@ -24,7 +24,7 @@ export class DataSource {
         this.notifySubscribers();
     }
 
-    addData(n: DataType) {
+    addData(n: dsDataType) {
         this.myData.push(n);
         this.updateData()
     }

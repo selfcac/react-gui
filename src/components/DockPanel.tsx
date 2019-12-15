@@ -8,20 +8,30 @@ export enum DockType {
 export interface DockerProps {
     defaultDock : DockType
     sizeStyle? : React.CSSProperties
+    wrapperStyle? : React.CSSProperties
+    firstStyle? : React.CSSProperties
+    secondStyle? : React.CSSProperties
 }
 
 export interface FastDockerProps {
     sizeStyle? : React.CSSProperties
+    wrapperStyle? : React.CSSProperties
+    firstStyle? : React.CSSProperties
+    secondStyle? : React.CSSProperties
 }
 
 export var DockTop : React.FC<FastDockerProps> = (props ) =>
-     {return (<DockPanel defaultDock={DockType.TOP} sizeStyle={props.sizeStyle}>{props.children}</DockPanel>)};
+     {return (<DockPanel defaultDock={DockType.TOP} sizeStyle={props.sizeStyle}
+        wrapperStyle={props.wrapperStyle} firstStyle={props.firstStyle} secondStyle={props.secondStyle}>{props.children}</DockPanel>)};
 export var DockLeft : React.FC<FastDockerProps> = (props) => 
-    {return (<DockPanel defaultDock={DockType.LEFT} sizeStyle={props.sizeStyle}>{props.children}</DockPanel>)};
+    {return (<DockPanel defaultDock={DockType.LEFT} sizeStyle={props.sizeStyle}
+        wrapperStyle={props.wrapperStyle} firstStyle={props.firstStyle} secondStyle={props.secondStyle}>{props.children}</DockPanel>)};
 export var DockRight : React.FC<FastDockerProps> = (props) =>
-     {return (<DockPanel defaultDock={DockType.RIGHT} sizeStyle={props.sizeStyle}>{props.children}</DockPanel>)};
+     {return (<DockPanel defaultDock={DockType.RIGHT} sizeStyle={props.sizeStyle}
+        wrapperStyle={props.wrapperStyle} firstStyle={props.firstStyle} secondStyle={props.secondStyle}>{props.children}</DockPanel>)};
 export var DockBottom : React.FC<FastDockerProps> = (props) => 
-    {return (<DockPanel defaultDock={DockType.BOTTOM} sizeStyle={props.sizeStyle}>{props.children}</DockPanel>)};
+    {return (<DockPanel defaultDock={DockType.BOTTOM} sizeStyle={props.sizeStyle}
+        wrapperStyle={props.wrapperStyle} firstStyle={props.firstStyle} secondStyle={props.secondStyle}>{props.children}</DockPanel>)};
 
 export default class DockPanel extends React.Component<DockerProps> {
 
@@ -39,10 +49,11 @@ export default class DockPanel extends React.Component<DockerProps> {
                return (
                     <div className="dockPanel" style={{
                         display:"flex", flexDirection: this.getDockFlexString(type),
-                        height: "100%"
+                        height: "100%", ...this.props.wrapperStyle
                         }}>
-                        <div className="dockDocked" style={{flex:"0", ...this.props.sizeStyle}}>{childFirst}</div>
-                        <div className="dockFill" style={{flex:"1"}}>{childNext}</div>
+                        <div className="dockDocked" 
+                            style={{flex:"0", ...this.props.sizeStyle , ... this.props.firstStyle}}>{childFirst}</div>
+                        <div className="dockFill" style={{flex:"1", ... this.props.secondStyle}}>{childNext}</div>
                     </div>
                );
             }
