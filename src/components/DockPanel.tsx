@@ -52,8 +52,8 @@ export default class DockPanel extends React.Component<DockerProps> {
                         height: "100%", ...this.props.wrapperStyle
                         }}>
                         <div className="dockDocked" 
-                            style={{flex:"0", ...this.props.sizeStyle , ... this.props.firstStyle}}>{childFirst}</div>
-                        <div className="dockFill" style={{flex:"1", ... this.props.secondStyle}}>{childNext}</div>
+                            style={{flex:"0 0", ...this.props.sizeStyle , ... this.props.firstStyle}}>{childFirst}</div>
+                        <div className="dockFill" style={{flex:"1 0", ... this.props.secondStyle}}>{childNext}</div>
                     </div>
                );
             }

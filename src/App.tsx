@@ -92,6 +92,7 @@ class App extends React.Component<{},MyNumberProps2> {
   );
 
   render() {
+    
     return (
 
       <div className="App" style={{ height: "100vh", width: "100vw" }}>
@@ -121,16 +122,19 @@ class App extends React.Component<{},MyNumberProps2> {
                           />
                           </DockRight>
                         </DockRight>
-                        <div className={FullHeightClassName}>
-                          <div style={{ height: "50%",  maxHeight: "50%", overflow:  "auto", padding: "0 10px" }} >
+                        <FullHeightDiv>
+                          <div style={{ minHeight: "50%",  maxHeight: "50%", 
+                          overflowY:  "auto", padding: "0 10px",
+                          border : "3px solid black"
+                          }} >
                               <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
                           </div>
                           < div style={{  height: "50%", padding: "10px" }}>
-                              <div style={{background: "red"}} className={FullHeightClassName}>
+                              <FullHeightDiv style={{background: "red"}}>
                                 Content
-                              </div>
+                              </FullHeightDiv>
                           </div>
-                        </div>
+                        </FullHeightDiv>
                     </DockTop>
                   </FullHeightDiv>
                 </Col>
