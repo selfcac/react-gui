@@ -9,13 +9,12 @@ import { FullHeightDiv, FullHeightClass as FullHeightClassName } from './compone
 import { ClickParam } from 'antd/lib/menu';
 import ReactResizeDetector from 'react-resize-detector';
 
+
 export interface MyNumberProps2 {
   myNumber : number
   visibleDropDown : boolean
   filterCount : number
   filterArray : boolean[]
-
-
 }
 
 
@@ -29,8 +28,6 @@ class App extends React.Component<{},MyNumberProps2> {
     visibleDropDown : false,
     filterCount : 0,
     filterArray : [false,false,false],
-
-    
   }
 
   updateNumber = (i: number) => {
@@ -42,8 +39,6 @@ class App extends React.Component<{},MyNumberProps2> {
     this.data.addData("Hello");
     this.data.addData("Hello");
     this.data.addSubscriber(()=>{this.setState(this.state)})
-
-   
   }
 
   getFilterFunc(substring : string) {
@@ -103,11 +98,13 @@ class App extends React.Component<{},MyNumberProps2> {
     return (
 
       <div className="App" style={{ height: "100vh", width: "100vw" }}>
-          <DockTop wrapperStyle={{height: "100%"}}>
+          <DockTop>
             <MainMenu updateFunc={this.updateNumber} ></MainMenu>
+            <FullHeightDiv>
               <Row className={FullHeightClassName}>
-                <Col span={8}  className={FullHeightClassName}>
-                    <DockTop >
+                <Col span={8} className={FullHeightClassName}>
+                  <FullHeightDiv style={{padding: "10px"}} >
+                    <DockTop>
                         <DockRight wrapperStyle={{padding: "10px"}}>
                           <DockRight>
                             <DockLeft>
@@ -127,31 +124,29 @@ class App extends React.Component<{},MyNumberProps2> {
                           />
                           </DockRight>
                         </DockRight>
-                          <div style={{ height: "100%"}}>
-                            <ReactResizeDetector handleHeight  render=
-                            {({height})=> (
-                               <FullHeightDiv>
-                                      <div style={{ height:  height*0.5,
-                                    overflowY:  "auto", padding: "0 10px",
-                                    }} >
-                                        <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
-                                    </div>
-                                    
-                                  <div style={{  height:  "50%",  padding: "10px" }}>
-                                      <FullHeightDiv style={{background: "red"}}>
-                                        Content
-                                      </FullHeightDiv>
-                                  </div>
-                               </FullHeightDiv>
-                             )} />
+                        <ReactResizeDetector handleHeight render={({height}) => {return (
+                          <FullHeightDiv>
+                          <div style={{ height: height*0.5, 
+                          overflowY:  "auto", padding: "0 10px",
+                          }} >
+                              <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
                           </div>
+                          < div style={{  height: "50%", padding: "10px" }}>
+                              <FullHeightDiv style={{background: "red"}}>
+                                Content
+                              </FullHeightDiv>
+                          </div>
+                        </FullHeightDiv>
+                        )}} />
                     </DockTop>
+                  </FullHeightDiv>
                 </Col>
                 <Col span={8} className={FullHeightClassName}><b>col-8</b></Col>
                 <Col span={8} className={FullHeightClassName}><b>col-8</b></Col>
               </Row>
+            </FullHeightDiv>
           </DockTop>
-    </div>
+      </div>
     );
   }
 }
