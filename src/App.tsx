@@ -14,6 +14,9 @@ export interface MyNumberProps2 {
   visibleDropDown : boolean
   filterCount : number
   filterArray : boolean[]
+
+  w : number
+  h: number
 }
 
 
@@ -27,6 +30,9 @@ class App extends React.Component<{},MyNumberProps2> {
     visibleDropDown : false,
     filterCount : 0,
     filterArray : [false,false,false],
+
+    w : 0,
+    h: 0,
   }
 
   updateNumber = (i: number) => {
@@ -38,6 +44,11 @@ class App extends React.Component<{},MyNumberProps2> {
     this.data.addData("Hello");
     this.data.addData("Hello");
     this.data.addSubscriber(()=>{this.setState(this.state)})
+
+    window.addEventListener("resize",(ev)=>{
+      console.log("Resized!");
+      this.forceUpdate();      
+    });
   }
 
   getFilterFunc(substring : string) {
@@ -96,14 +107,12 @@ class App extends React.Component<{},MyNumberProps2> {
     
     return (
 
-      <div className="App" style={{ height: "100vh", width: "100vw" }}>
-          <DockTop>
+      <div className="App" style={{ height: "100vh", maxHeight:  "100vh", width: "100vw" }}>
+          <DockTop wrapperStyle={{height: "100%"}}>
             <MainMenu updateFunc={this.updateNumber} ></MainMenu>
-            <FullHeightDiv>
               <Row className={FullHeightClassName}>
-                <Col span={8} className={FullHeightClassName}>
-                  <FullHeightDiv style={{padding: "10px"}} >
-                    <DockTop>
+                <Col span={8}  className={FullHeightClassName}>
+                    <DockTop >
                         <DockRight wrapperStyle={{padding: "10px"}}>
                           <DockRight>
                             <DockLeft>
@@ -123,29 +132,31 @@ class App extends React.Component<{},MyNumberProps2> {
                           />
                           </DockRight>
                         </DockRight>
-                          <ReactResizeDetector handleHeight render={({ width, height }) => (
-                              <FullHeightDiv>
-                              <div style={{ maxHeight: height * 0.5,  height: height * 0.5, 
-                              overflowY:  "auto", padding: "0 10px",
-                              }} >
-                                  <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
-                              </div>
-                              < div style={{  height: height * 0.5, padding: "10px" }}>
-                                  <FullHeightDiv style={{background: "red"}}>
-                                    Content
-                                  </FullHeightDiv>
-                              </div>
-                            </FullHeightDiv>
-                          )} />
+                          <div style={{ height: "100%"}}>
+                            <ReactResizeDetector handleHeight  render=
+                            {({height})=> (
+                               <FullHeightDiv>
+                                      <div style={{ height:  height*0.5, maxHeight: height*0.5,
+                                    overflowY:  "auto", padding: "0 10px",
+                                    }} >
+                                        <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
+                                    </div>
+                                    
+                                  <div style={{  height:  "50%",  maxHeight: "50%" , padding: "10px" }}>
+                                      <FullHeightDiv style={{background: "red"}}>
+                                        Content
+                                      </FullHeightDiv>
+                                  </div>
+                               </FullHeightDiv>
+                             )} />
+                          </div>
                     </DockTop>
-                  </FullHeightDiv>
                 </Col>
                 <Col span={8} className={FullHeightClassName}><b>col-8</b></Col>
                 <Col span={8} className={FullHeightClassName}><b>col-8</b></Col>
               </Row>
-            </FullHeightDiv>
           </DockTop>
-      </div>
+    </div>
     );
   }
 }
