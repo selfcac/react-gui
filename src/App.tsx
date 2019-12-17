@@ -102,7 +102,7 @@ class App extends React.Component<{},MyNumberProps2> {
     
     return (
 
-      <div className="App" style={{ height: "100vh", maxHeight:  "100vh", width: "100vw" }}>
+      <div className="App" style={{ height: "100vh", width: "100vw" }}>
           <DockTop wrapperStyle={{height: "100%"}}>
             <MainMenu updateFunc={this.updateNumber} ></MainMenu>
               <Row className={FullHeightClassName}>
