@@ -15,8 +15,7 @@ export interface MyNumberProps2 {
   filterCount : number
   filterArray : boolean[]
 
-  w : number
-  h: number
+
 }
 
 
@@ -31,8 +30,7 @@ class App extends React.Component<{},MyNumberProps2> {
     filterCount : 0,
     filterArray : [false,false,false],
 
-    w : 0,
-    h: 0,
+    
   }
 
   updateNumber = (i: number) => {
@@ -45,10 +43,7 @@ class App extends React.Component<{},MyNumberProps2> {
     this.data.addData("Hello");
     this.data.addSubscriber(()=>{this.setState(this.state)})
 
-    window.addEventListener("resize",(ev)=>{
-      console.log("Resized!");
-      this.forceUpdate();      
-    });
+   
   }
 
   getFilterFunc(substring : string) {
