@@ -131,13 +131,13 @@ class App extends React.Component<{},MyNumberProps2> {
                             <ReactResizeDetector handleHeight  render=
                             {({height})=> (
                                <FullHeightDiv>
-                                      <div style={{ height:  height*0.5, maxHeight: height*0.5,
+                                      <div style={{ height:  height*0.5,
                                     overflowY:  "auto", padding: "0 10px",
                                     }} >
                                         <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
                                     </div>
                                     
-                                  <div style={{  height:  "50%",  maxHeight: "50%" , padding: "10px" }}>
+                                  <div style={{  height:  "50%",  padding: "10px" }}>
                                       <FullHeightDiv style={{background: "red"}}>
                                         Content
                                       </FullHeightDiv>
