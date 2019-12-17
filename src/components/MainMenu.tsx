@@ -21,7 +21,7 @@ export default class MainMenu extends React.Component<MenuProps, MenuState> {
 
     MyClick = (param: ClickParam) => {
         this.props.updateFunc(5);
-        message.info("Updated to 5",5);
+        //message.info("Updated to 5",5);
     }
 
     render() {
