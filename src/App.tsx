@@ -7,6 +7,7 @@ import Search from 'antd/lib/input/Search';
 import { DataSource, dsDataType } from './data-components/DataSource';
 import { FullHeightDiv, FullHeightClass as FullHeightClassName } from './components/FullHeight';
 import { ClickParam } from 'antd/lib/menu';
+import ReactResizeDetector from 'react-resize-detector';
 
 export interface MyNumberProps2 {
   myNumber : number
@@ -122,19 +123,20 @@ class App extends React.Component<{},MyNumberProps2> {
                           />
                           </DockRight>
                         </DockRight>
-                        <FullHeightDiv>
-                          <div style={{ minHeight: "50%",  maxHeight: "50%", 
-                          overflowY:  "auto", padding: "0 10px",
-                          border : "3px solid black"
-                          }} >
-                              <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
-                          </div>
-                          < div style={{  height: "50%", padding: "10px" }}>
-                              <FullHeightDiv style={{background: "red"}}>
-                                Content
-                              </FullHeightDiv>
-                          </div>
-                        </FullHeightDiv>
+                          <ReactResizeDetector handleHeight render={({ width, height }) => (
+                              <FullHeightDiv>
+                              <div style={{ maxHeight: height * 0.5,  height: height * 0.5, 
+                              overflowY:  "auto", padding: "0 10px",
+                              }} >
+                                  <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
+                              </div>
+                              < div style={{  height: height * 0.5, padding: "10px" }}>
+                                  <FullHeightDiv style={{background: "red"}}>
+                                    Content
+                                  </FullHeightDiv>
+                              </div>
+                            </FullHeightDiv>
+                          )} />
                     </DockTop>
                   </FullHeightDiv>
                 </Col>
