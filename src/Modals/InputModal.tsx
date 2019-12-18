@@ -79,7 +79,7 @@ export class CInputModal extends React.Component<InputModalProps,InputModalState
     }
 
     render() {
-        return this.state.open ? (
+        return (
             <Modal
             title={this.props.manager.title}
             visible={this.state.open}
@@ -87,13 +87,13 @@ export class CInputModal extends React.Component<InputModalProps,InputModalState
             onCancel={this.handleCancel}
             >
                 <p>{this.props.manager.description}</p> <br/>
-                    <Input 
+                    {this.state.open ? (<Input 
                         type="text" 
                         defaultValue={this.props.manager.defaultValue}
                         value ={this.state.myValue} onChange={(e)=>{this.setState({myValue: e.target.value})}}
                         autoFocus
-                    />
+                    />) : (<div></div>)}
             </Modal>
-        ) : (<div></div>);
+        ) ;
     }
 }
