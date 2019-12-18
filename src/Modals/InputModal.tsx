@@ -44,7 +44,7 @@ export interface InputModalProps {
 }
 
 export interface InputModalState {
-    lastVisible: boolean
+    open: boolean
     myValue : string
 }
 
@@ -52,21 +52,21 @@ export interface InputModalState {
 export class CInputModal extends React.Component<InputModalProps,InputModalState> {
 
     state = {
-        lastVisible: false,
+        open: false,
         myValue : "",
     }
 
     shouldComponentUpdate(nextProps: Readonly<InputModalProps>, nextState: Readonly<InputModalState>, nextContext: any) : boolean
     {
-        return (this.state.lastVisible != nextState.lastVisible || this.state.myValue != nextState.myValue);
+        return (this.state.open !== nextState.open || this.state.myValue !== nextState.myValue);
     }
 
     componentDidMount () {
         this.props.manager.setUpdateListener((visible: boolean) => {
             if ( visible)            
-                this.setState({myValue: "", lastVisible: visible })
+                this.setState({myValue: "", open: visible })
             else 
-                this.setState({lastVisible: visible })
+                this.setState({open: visible })
         });
     }
     
@@ -79,20 +79,21 @@ export class CInputModal extends React.Component<InputModalProps,InputModalState
     }
 
     render() {
-        return (
+        return this.state.open ? (
             <Modal
             title={this.props.manager.title}
-            visible={this.state.lastVisible}
+            visible={this.state.open}
             onOk={ this.handleOK}
             onCancel={this.handleCancel}
             >
                 <p>{this.props.manager.description}</p> <br/>
-                <Input 
-                    type="text" 
-                    defaultValue={this.props.manager.defaultValue}
-                    value ={this.state.myValue} onChange={(e)=>{this.setState({myValue: e.target.value})}}
-                />
+                    <Input 
+                        type="text" 
+                        defaultValue={this.props.manager.defaultValue}
+                        value ={this.state.myValue} onChange={(e)=>{this.setState({myValue: e.target.value})}}
+                        autoFocus
+                    />
             </Modal>
-        )
+        ) : (<div></div>);
     }
 }

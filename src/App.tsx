@@ -36,7 +36,7 @@ class App extends React.Component<{},MyNumberProps2> {
   componentDidMount() {
     this.data.addSubscriber(()=>{this.setState(this.state)})
   }
-  
+
   updateNumber = (i: number) => {
     this.setState({ myNumber: i });
     this.data.addData("Hello");
