@@ -8,6 +8,8 @@ import { DataSource, dsDataType } from './data-components/DataSource';
 import { FullHeightDiv, FullHeightClass as FullHeightClassName } from './components/FullHeight';
 import { ClickParam } from 'antd/lib/menu';
 import ReactResizeDetector from 'react-resize-detector';
+import { CInputModal, InputModal } from './Modals/InputModal';
+import { ModalResult } from './Modals/ModalResultEnum';
 
 
 export interface MyNumberProps2 {
@@ -21,6 +23,7 @@ export interface MyNumberProps2 {
 class App extends React.Component<{},MyNumberProps2> {
 
   data : DataSource = new DataSource();
+  inputModal1 : InputModal = new InputModal("Add domain", "domain", "example.com");
 
   state: MyNumberProps2 = {
     myNumber: 0,
@@ -30,15 +33,13 @@ class App extends React.Component<{},MyNumberProps2> {
     filterArray : [false,false,false],
   }
 
+  componentDidMount() {
+    this.data.addSubscriber(()=>{this.setState(this.state)})
+  }
+  
   updateNumber = (i: number) => {
     this.setState({ myNumber: i });
     this.data.addData("Hello");
-  }
-
-  componentDidMount() {
-    this.data.addData("Hello");
-    this.data.addData("Hello");
-    this.data.addSubscriber(()=>{this.setState(this.state)})
   }
 
   getFilterFunc(substring : string) {
@@ -52,7 +53,10 @@ class App extends React.Component<{},MyNumberProps2> {
   }
 
   addDomain() {
-     // Popup?
+    this.inputModal1.showDialog((dialogResult, Result)=>{
+      if (dialogResult == ModalResult.OK)
+        this.data.addData(Result);
+    })
   }
 
   renderItem(item: dsDataType, index: number) : ReactNode {
@@ -98,6 +102,7 @@ class App extends React.Component<{},MyNumberProps2> {
     return (
 
       <div className="App" style={{ height: "100vh", width: "100vw" }}>
+          <CInputModal manager={this.inputModal1}></CInputModal>
           <DockTop>
             <MainMenu updateFunc={this.updateNumber} ></MainMenu>
             <FullHeightDiv>
@@ -108,7 +113,11 @@ class App extends React.Component<{},MyNumberProps2> {
                         <DockRight wrapperStyle={{padding: "10px"}}>
                           <DockRight>
                             <DockLeft>
-                            <Button type="primary" style={{marginLeft: "10px", marginRight: "10px"}}>+</Button>
+                            <Button type="primary" style={{marginLeft: "10px", marginRight: "10px"}}
+                              onClick={() => {this.addDomain()}}
+                            >
+                              +
+                            </Button>
                             <Dropdown overlay={this.filterMenu} trigger={["hover"]} placement="bottomRight"
                               visible={this.state.visibleDropDown}>
                               <Badge count={this.state.filterCount} style={{marginRight: "10px"}}>
