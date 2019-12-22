@@ -11,6 +11,10 @@ import ReactResizeDetector from 'react-resize-detector';
 import { CInputModal, InputModal } from './Modals/InputModal';
 import { ModalResult } from './Modals/ModalResultEnum';
 
+import {API, API_PORT} from "../../commons/API"
+import {Domain} from "../../commons/Classes/Domain"
+
+
 
 export interface MyNumberProps2 {
   myNumber : number
@@ -53,10 +57,15 @@ class App extends React.Component<{},MyNumberProps2> {
   }
 
   addDomain() {
-    this.inputModal1.showDialog((dialogResult, Result)=>{
+     this.inputModal1.showDialog((dialogResult, Result)=>{
       if (dialogResult == ModalResult.OK)
         this.data.addData(Result);
-    })
+    }) 
+  }
+
+  async addDomain2() {
+    let newDomain : Domain = await (await fetch(`http://localhost:${API_PORT}/${API.GET_DOMAIN}`)).json() as Domain;
+    this.data.addData(newDomain.Name);
   }
 
   renderItem(item: dsDataType, index: number) : ReactNode {
@@ -114,7 +123,7 @@ class App extends React.Component<{},MyNumberProps2> {
                           <DockRight>
                             <DockLeft>
                             <Button type="primary" style={{marginLeft: "10px", marginRight: "10px"}}
-                              onClick={() => {this.addDomain()}}
+                              onClick={async () => {await this.addDomain2()}}
                             >
                               +
                             </Button>

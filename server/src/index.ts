@@ -1,16 +1,16 @@
 import express from 'express';
 import {Domain} from '../../commons/Classes/Domain'
+import {API, API_PORT} from '../../commons/API'
 
 const app = express();
-const port = 3033;
 
-app.get('/newDomain', (req, res) => {
-  res.send(new Domain("Domain", false));
+app.get(API.GET_DOMAIN, (req, res) => {
+  res.send(new Domain("Domain " + Math.ceil(Math.random() * 1000)));
 });
 
-app.listen(port, err => {
+app.listen(API_PORT, err => {
   if (err) {
     return console.error(err);
   }
-  return console.log(`server is listening on ${port}`);
+  return console.log(`server is listening on ${API_PORT}`);
 });
