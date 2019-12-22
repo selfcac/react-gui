@@ -1,5 +1,7 @@
+import { DomainItem } from "../commons/Classes/DomainItem";
 
-export type dsDataType = string;
+
+export type dsDataType = DomainItem;
 type FilterItemFunction = (i: dsDataType) => boolean;
 type SortFunction = (a: dsDataType, b: dsDataType) => number;
 type NotifyFunction = () => void;

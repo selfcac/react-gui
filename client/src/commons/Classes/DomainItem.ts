@@ -1,4 +1,4 @@
-export class Domain {
+export class DomainItem {
     Name: string = "";
     Blocked: boolean = false;
 

@@ -11,8 +11,8 @@ import ReactResizeDetector from 'react-resize-detector';
 import { CInputModal, InputModal } from './Modals/InputModal';
 import { ModalResult } from './Modals/ModalResultEnum';
 
-import {API, API_PORT} from "../../commons/API"
-import {Domain} from "../../commons/Classes/Domain"
+import {API, API_PORT} from "./commons/API"
+import { DomainItem } from './commons/Classes/DomainItem';
 
 
 
@@ -43,12 +43,12 @@ class App extends React.Component<{},MyNumberProps2> {
 
   updateNumber = (i: number) => {
     this.setState({ myNumber: i });
-    this.data.addData("Hello");
+    this.data.addData(new DomainItem());
   }
 
   getFilterFunc(substring : string) {
     return (item : dsDataType)=> {
-      return item.toLowerCase().indexOf(substring.toLowerCase()) > -1;
+      return item.Name.toLowerCase().indexOf(substring.toLowerCase()) > -1;
     };
   }
 
@@ -59,22 +59,22 @@ class App extends React.Component<{},MyNumberProps2> {
   addDomain() {
      this.inputModal1.showDialog((dialogResult, Result)=>{
       if (dialogResult == ModalResult.OK)
-        this.data.addData(Result);
+        this.data.addData(new DomainItem(Result, false));
     }) 
   }
 
   async addDomain2() {
-    let newDomain : Domain = await (await fetch(`http://localhost:${API_PORT}/${API.GET_DOMAIN}`)).json() as Domain;
-    this.data.addData(newDomain.Name);
+    let newDomain : DomainItem = await (await fetch(`http://localhost:${API_PORT}${API.GET_DOMAIN}`)).json() as DomainItem;
+    this.data.addData(newDomain);
   }
 
   renderItem(item: dsDataType, index: number) : ReactNode {
     return (
       <List.Item actions={[(<a>Edit</a>), (<a>Edit</a>)]} >
         <List.Item.Meta
-          title = {item.toString()}
+          title = {item.Name}
           description = {(
-                <div><Checkbox disabled={true}>Allowed</Checkbox><Tag>hello</Tag></div>
+                <div><Checkbox disabled={item.Blocked}>Allowed</Checkbox><Tag>hello</Tag></div>
             )}
         />
       </List.Item>
