@@ -1,10 +1,11 @@
 import express from 'express';
+import {Domain} from '../../commons/Classes/Domain'
 
 const app = express();
-const port = 3000;
+const port = 3033;
 
-app.get('/', (req, res) => {
-  res.send('The sedulous hyena ate the antelope!');
+app.get('/newDomain', (req, res) => {
+  res.send(new Domain("Domain", false));
 });
 
 app.listen(port, err => {
