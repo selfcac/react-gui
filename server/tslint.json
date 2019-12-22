@@ -1,11 +1,12 @@
 {
     "defaultSeverity": "error",
     "extends": [
-        "tslint:recommended"
+
     ],
-    "jsRules": {
+    "jsRules": {},
+    "rules": {
+        "no-floating-promises": true,
         "no-console": false
     },
-    "rules": {},
     "rulesDirectory": []
 }
