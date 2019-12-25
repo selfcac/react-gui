@@ -2,43 +2,49 @@ import React, { ReactNode } from 'react';
 import './App.css';
 import MainMenu from './components/MainMenu';
 import { DockTop, DockRight, DockLeft } from './components/DockPanel';
-import { List, Row, Col, Tag, Checkbox, Button, Popover, Icon, Badge, Menu, Dropdown } from 'antd';
+import { List, Row, Col, Tag, Checkbox, Button} from 'antd';
 import Search from 'antd/lib/input/Search';
-import { DataSource, dsDataType } from './data-components/DataSource';
+import { DataSource} from './data-components/DataSource';
 import { FullHeightDiv, FullHeightClass as FullHeightClassName } from './components/FullHeight';
-import { ClickParam } from 'antd/lib/menu';
 import ReactResizeDetector from 'react-resize-detector';
 import { CInputModal, InputModal } from './Modals/InputModal';
 import { ModalResult } from './Modals/ModalResultEnum';
 
 import {API, API_PORT} from "./commons/API"
 import { DomainItem } from './commons/Classes/DomainItem';
+import { FilterMenu, FilterMenuList, SimpleFunctionFilter } from './components/FilterMenu';
 
 
 
-export interface MyNumberProps2 {
+export interface AppState {
   myNumber : number
-  visibleDropDown : boolean
-  filterCount : number
-  filterArray : boolean[]
+  
 }
 
 
-class App extends React.Component<{},MyNumberProps2> {
+class App extends React.Component<{},AppState> {
 
-  data : DataSource = new DataSource();
+  data : DataSource<DomainItem> = new DataSource<DomainItem>();
   inputModal1 : InputModal = new InputModal("Add domain", "domain", "example.com");
 
-  state: MyNumberProps2 = {
-    myNumber: 0,
+  mySearchFilter = new FilterMenuList(["Allowed Domains", "Include 4"]);
+  mySearchDomainFilters = new SimpleFunctionFilter<DomainItem>([
+    (item,included)=> {return !item.Blocked && included },
+    (item,included)=> {return item.Name.indexOf('4') > -1 && included },
+  ]);
 
-    visibleDropDown : false,
-    filterCount : 0,
-    filterArray : [false,false,false],
+  constructor(props : {}) {
+    super(props);
+    this.data.addSubscriber(()=>{this.setState(this.state)})
+    this.data.applyFilter(
+      (item)=> {
+       return this.mySearchDomainFilters.filterItem(item, this.mySearchFilter.getAllStates(), true);
+     }
+   );
   }
 
-  componentDidMount() {
-    this.data.addSubscriber(()=>{this.setState(this.state)})
+  state: AppState = {
+    myNumber: 0,    
   }
 
   updateNumber = (i: number) => {
@@ -46,17 +52,7 @@ class App extends React.Component<{},MyNumberProps2> {
     this.data.addData(new DomainItem());
   }
 
-  getFilterFunc(substring : string) {
-    return (item : dsDataType)=> {
-      return item.Name.toLowerCase().indexOf(substring.toLowerCase()) > -1;
-    };
-  }
-
-  toggleFilterDropDown = () => {
-    this.setState({visibleDropDown: !this.state.visibleDropDown});
-  }
-
-  addDomain() {
+  addDomainByDialog() {
      this.inputModal1.showDialog((dialogResult, Result)=>{
       if (dialogResult == ModalResult.OK)
         this.data.addData(new DomainItem(Result, false));
@@ -68,7 +64,7 @@ class App extends React.Component<{},MyNumberProps2> {
     this.data.addData(newDomain);
   }
 
-  renderItem(item: dsDataType, index: number) : ReactNode {
+  renderItem(item: DomainItem, index: number) : ReactNode {
     return (
       <List.Item actions={[(<a>Edit</a>), (<a>Edit</a>)]} >
         <List.Item.Meta
@@ -80,36 +76,10 @@ class App extends React.Component<{},MyNumberProps2> {
       </List.Item>
     );
   }
-
-  updateFilter = (i : number) => {
-    let fArray = this.state.filterArray;
-    fArray[i] = !fArray[i];
-    let count = this.state.filterCount;
-    if (fArray[i])
-      count++;
-    else
-      count--;
-    this.setState({filterArray: fArray, filterCount: count})
-  }
-
-  filterMenu = (
-    <Menu>
-      <Menu.Item key={0}>
-        <Checkbox onClick={(e)=>this.updateFilter(0)}>Filter 1</Checkbox>
-      </Menu.Item>
-      <Menu.Item key={1}>
-        <Checkbox onClick={(e)=>this.updateFilter(1)}>Filter 1</Checkbox>
-      </Menu.Item>
-      <Menu.Item key={2}>
-        <Checkbox onClick={(e)=>this.updateFilter(2)}>Filter 1</Checkbox>
-      </Menu.Item>
-    </Menu>
-  );
+  
 
   render() {
-    
     return (
-
       <div className="App" style={{ height: "100vh", width: "100vw" }}>
           <CInputModal manager={this.inputModal1}></CInputModal>
           <DockTop>
@@ -127,18 +97,12 @@ class App extends React.Component<{},MyNumberProps2> {
                             >
                               +
                             </Button>
-                            <Dropdown overlay={this.filterMenu} trigger={["hover"]} placement="bottomRight"
-                              visible={this.state.visibleDropDown}>
-                              <Badge count={this.state.filterCount} style={{marginRight: "10px"}}>
-                                <Button onClick={this.toggleFilterDropDown} 
-                                 ><Icon type="filter"/></Button>
-                              </Badge>
-                            </Dropdown>
+                            <FilterMenu FilterList={this.mySearchFilter} onFilterUpdated={()=>{this.data.reApplyFilters()}} />
                             </DockLeft>
                           <Search 
                           placeholder="search domain" 
-                          onSearch={value => this.data.applyFilter(this.getFilterFunc(value))} 
-                          /* enterButton  */
+                          /*onSearch={value => this.data.applyFilter(this.getFilterFunc(value))} 
+                           enterButton  */
                           />
                           </DockRight>
                         </DockRight>

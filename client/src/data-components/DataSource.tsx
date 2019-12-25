@@ -1,22 +1,21 @@
 import { DomainItem } from "../commons/Classes/DomainItem";
 
 
-export type dsDataType = DomainItem;
-type FilterItemFunction = (i: dsDataType) => boolean;
-type SortFunction = (a: dsDataType, b: dsDataType) => number;
+type FilterItemFunction<T> = (i: T) => boolean;
+type SortFunction<T> = (a: T, b: T) => number;
 type NotifyFunction = () => void;
 
 
-export class DataSource {
+export class DataSource<T> {
     
-    private myData : dsDataType[] = [];
+    private myData : T[] = [];
     private subscribers : Array<NotifyFunction> = [];
     
-    private lastFilterFunc : FilterItemFunction = (a) => true;
-    private lastSortFunc : SortFunction = (a,b) => 0;
-    filteredData : dsDataType[]  = [];
+    private lastFilterFunc : FilterItemFunction<T> = (a) => true;
+    private lastSortFunc : SortFunction<T> = (a,b) => 0;
+    filteredData : T[]  = [];
 
-    loadData (data: dsDataType[]) {
+    loadData (data: T[]) {
         this.myData = data;
         this.updateData()
     }
@@ -26,17 +25,21 @@ export class DataSource {
         this.notifySubscribers();
     }
 
-    addData(n: dsDataType) {
+    addData(n: T) {
         this.myData.push(n);
         this.updateData()
     }
 
-    applyFilter(f: FilterItemFunction) {
+    applyFilter(f: FilterItemFunction<T>) {
         this.lastFilterFunc = f;
         this.updateData()
     }
 
-    applySort(f: SortFunction) {
+    reApplyFilters() {
+        this.updateData();
+    }
+
+    applySort(f: SortFunction<T>) {
         this.lastSortFunc = f;
         this.updateData()
     }
