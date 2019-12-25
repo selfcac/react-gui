@@ -13,6 +13,7 @@ import { ModalResult } from './Modals/ModalResultEnum';
 import {API, API_PORT} from "./commons/API"
 import { DomainItem } from './commons/Classes/DomainItem';
 import { FilterMenu, FilterMenuList, SimpleFunctionFilter } from './components/FilterMenu';
+import { getJson } from './utils/fetchUtils';
 
 
 
@@ -60,7 +61,7 @@ class App extends React.Component<{},AppState> {
   }
 
   async addDomain2() {
-    let newDomain : DomainItem = await (await fetch(`http://localhost:${API_PORT}${API.GET_DOMAIN}`)).json() as DomainItem;
+    let newDomain : DomainItem = await getJson<DomainItem>(`http://localhost:${API_PORT}${API.GET_DOMAIN}`, "new domain");
     this.data.addData(newDomain);
   }
 
