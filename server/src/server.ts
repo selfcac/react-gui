@@ -4,6 +4,8 @@ import {API, API_PORT} from '../../client/src/commons/API'
 
 const app = express();
 
+app.use(express.json());
+
 app.use((req, res, next) => {
   console.log(`${new Date().toTimeString()} ${req.method} ${req.path}`)
   res.set('Access-Control-Allow-Origin', '*');
