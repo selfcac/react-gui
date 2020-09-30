@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import './App.css';
 import MainMenu from './components/MainMenu';
-import { DockTop, DockRight, DockLeft } from './components/DockPanel';
+import { DockTop, DockRight, DockLeft, DockBottom } from './components/DockPanel';
 import { List, Row, Col, Tag, Checkbox, Button} from 'antd';
 import Search from 'antd/lib/input/Search';
 import { DataSource} from './data-components/DataSource';
@@ -16,6 +16,7 @@ import { FilterMenu, FilterMenuList, SimpleFunctionFilter } from './components/F
 import { getJson } from './utils/fetchUtils';
 
 
+import { DockPanel, Docks} from './ui-comp/Dock';
 
 export interface AppState {
   myNumber : number
@@ -77,9 +78,11 @@ class App extends React.Component<{},AppState> {
       </List.Item>
     );
   }
+
+  
   
 
-  render() {
+  render2() {
     return (
       <div className="App" style={{ height: "100vh", width: "100vw" }}>
           <CInputModal manager={this.inputModal1}></CInputModal>
@@ -107,15 +110,21 @@ class App extends React.Component<{},AppState> {
                           />
                           </DockRight>
                         </DockRight>
-                        <ReactResizeDetector handleHeight render={({height}) => {return (
-                          <FullHeightDiv>
-                          <div style={{ height: height, 
-                          overflowY:  "auto", padding: "0 10px",
-                          }} >
-                              <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
+                        <DockBottom>
+                          <div style={{minHeight: "50px"}}>
+                              Im alone
                           </div>
-                        </FullHeightDiv>
-                        )}} />
+                          <ReactResizeDetector handleHeight render={({height}) => {return (
+                            <FullHeightDiv>
+                            <div style={{ height: height, 
+                              overflowY:  "auto", padding: "0 10px",
+                              }} >
+                                  <List dataSource={this.data.filteredData} renderItem={this.renderItem} ></List>
+                              </div>
+                            </FullHeightDiv>
+                          )}} />
+                          
+                        </DockBottom>
                     </DockTop>
                   </FullHeightDiv>
                 </Col>
@@ -126,6 +135,105 @@ class App extends React.Component<{},AppState> {
           </DockTop>
       </div>
     );
+  }
+
+
+  render() {
+    return (
+      <div>
+
+      <DockPanel>
+        <div {...Docks.TOP} style={{backgroundColor:"lightsalmon"}} key="2" >Top</div>
+        <div {...Docks.LEFT} style={{backgroundColor:"rgb(255, 253, 122)"}} key="4">Left </div>
+        <div {...Docks.RIGHT} style={{backgroundColor:"rgb(122, 213, 255)"}} key="6">Right</div>
+        <div {...Docks.BOTTOM} style={{backgroundColor:"rgb(255, 122, 140)"}} key="8">Bottom</div>
+        <div  
+          style={{backgroundColor:"lightblue",border:"solid black 1px", width:"100%"}} key="9">Fill</div>
+      </DockPanel>
+
+      <br />
+
+
+      <DockPanel>
+        <div {...Docks.LEFT} style={{backgroundColor:"lightsalmon"}} key="2" >1</div>
+        <div {...Docks.LEFT} style={{backgroundColor:"rgb(255, 253, 122)"}} key="4">2 </div>
+        <div {...Docks.RIGHT} style={{backgroundColor:"rgb(122, 213, 255)"}} key="6">3</div>
+        <div {...Docks.BOTTOM} style={{backgroundColor:"rgb(255, 122, 140)"}} key="8">4</div>
+        <div 
+          style={{backgroundColor:"lightblue",border:"solid black 1px", width:"100%"}} key="9">5</div>
+      </DockPanel>
+
+      <br />
+
+
+      <div style={{height: "100px", maxHeight:"100px"}}> 
+        <DockPanel>
+          <div {...Docks.TOP} style={{backgroundColor:"lightsalmon"}} key="2" >Top</div>
+          <div {...Docks.LEFT} style={{backgroundColor:"rgb(255, 253, 122)"}} key="4">Left </div>
+          <div {...Docks.RIGHT} style={{backgroundColor:"rgb(122, 213, 255)"}} key="6">Right</div>
+          <div {...Docks.BOTTOM} style={{backgroundColor:"rgb(255, 122, 140)"}} key="8">Bottom</div>
+          <div  id="fill"
+            style={{backgroundColor:"lightblue",border:"solid black 1px",
+             height: "100%", "maxHeight":"100%", minHeight: 0, overflow:"auto"}} key="9">
+               Fill
+              </div>
+        </DockPanel>
+      </div>
+
+      <br />
+
+      <div style={{height: "300px", maxHeight:"300px"}}> 
+        <DockPanel>
+          <div {...Docks.TOP} style={{backgroundColor:"lightsalmon"}} key="2" >Top</div>
+          <div {...Docks.LEFT} style={{backgroundColor:"rgb(255, 253, 122)"}} key="4">Left </div>
+          <div {...Docks.RIGHT} style={{backgroundColor:"rgb(122, 213, 255)"}} key="6">Right</div>
+          <div {...Docks.BOTTOM} style={{backgroundColor:"rgb(255, 122, 140)"}} key="8">Bottom</div>
+          <div  id="fill"
+            style={{backgroundColor:"lightblue",border:"solid black 1px",
+             height: "100%", "maxHeight":"100%", minHeight: 0, overflow:"auto"}} key="9">
+               <DockPanel>
+                <div {...Docks.TOP} style={{backgroundColor:"lightsalmon"}} key="2" >Top</div>
+                <div {...Docks.LEFT} style={{backgroundColor:"rgb(255, 253, 122)"}} key="4">Left </div>
+                <div {...Docks.RIGHT} style={{backgroundColor:"rgb(122, 213, 255)"}} key="6">Right</div>
+                <div {...Docks.BOTTOM} style={{backgroundColor:"rgb(255, 122, 140)"}} key="8">Bottom</div>
+                <div  id="fill2"
+                  style={{backgroundColor:"lightblue",border:"solid black 1px",
+                  height: "100%", overflow:"auto"}} key="9">
+                    Fill
+                </div>
+              </DockPanel>
+          </div>
+        </DockPanel>
+      </div>
+
+      <br />
+
+      <div style={{height: "300px", maxHeight:"300px"}}> 
+        <DockPanel>
+          <div {...Docks.TOP} style={{backgroundColor:"lightsalmon"}} key="2" >Top</div>
+          <div {...Docks.TOP} style={{backgroundColor:"rgb(255, 253, 122)"}} key="4">Left </div>
+          <div {...Docks.TOP} style={{backgroundColor:"rgb(122, 213, 255)"}} key="6">Right</div>
+          <div {...Docks.TOP} style={{backgroundColor:"rgb(255, 122, 140)"}} key="8">Bottom</div>
+          <div  id="fill"
+            style={{backgroundColor:"lightblue",border:"solid black 1px",
+             height: "100%", "maxHeight":"100%", minHeight: 0, overflow:"auto"}} key="9">
+               <DockPanel>
+                <div {...Docks.TOP} style={{backgroundColor:"lightsalmon"}} key="2" >Top</div>
+                <div {...Docks.LEFT} style={{backgroundColor:"rgb(255, 253, 122)"}} key="4">Left </div>
+                <div {...Docks.RIGHT} style={{backgroundColor:"rgb(122, 213, 255)"}} key="6">Right</div>
+                <div {...Docks.BOTTOM} style={{backgroundColor:"rgb(255, 122, 140)"}} key="8">Bottom</div>
+                <div  id="fill3"
+                  style={{backgroundColor:"lightblue",border:"solid black 1px",
+                  height: "100%", overflow:"auto"}} key="9">
+                    Fill
+                </div>
+              </DockPanel>
+          </div>
+        </DockPanel>
+      </div>
+
+      </div>
+    )
   }
 }
 
